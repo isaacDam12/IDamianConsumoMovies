@@ -1,0 +1,108 @@
+﻿@model ML.Usuario
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/login.css" />
+
+<section class="forms-section">
+    <h1 class="section-title">Acceso al Sistema</h1>
+    <div class="forms">
+        <div class="form-wrapper is-active">
+            <button type="button" class="switcher switcher-login">
+                Login
+                <span class="underline"></span>
+            </button>
+            @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form form-login" }))
+            {
+                <fieldset>
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control border-info", @onkeyup = "correoVal(this,'lblCorreo')" })
+                        <label id="lblCorreo" style="color:red"></label>
+                    </div>
+
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.Password)
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control border-info", @onkeyup = "soloLetras(this,'lblNombre')" })
+                    </div>
+                </fieldset>
+                <input type="submit" class="btn-signup" value="Enviar">
+            }
+        </div>
+
+        <div class="form-wrapper">
+            <button type="button" class="switcher switcher-signup">
+                Sign Up
+                <span class="underline"></span>
+            </button>
+            @using (Html.BeginForm("Registrar", "Login", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form form-signup" }))
+            {
+                <fieldset>
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.Nombre)
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control border-info", @onkeyup = "soloLetras(this,'lblNombre')" })
+                    </div>
+
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.ApellidoPaterno)
+                        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control border-info", @onkeyup = "soloLetras(this,'lblNombre')" })
+                    </div>
+
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.ApellidoMaterno)
+                        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control border-info", @onkeyup = "soloLetras(this,'lblNombre')" })
+                    </div>
+
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.Username)
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control border-info", @onkeyup = "soloLetras(this,'lblNombre')" })
+                    </div>
+
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control border-info", @onkeyup = "correoVal(this,'lblCorreo')" })
+                        <label id="lblCorreo" style="color:red"></label>
+                    </div>
+
+                    <div class="input-block">
+                        @Html.LabelFor(model => model.Password)
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control border-info", @onkeyup = "soloLetras(this,'lblNombre')" })
+                    </div>
+                </fieldset>
+                <input type="submit" class="btn-signup" value="Enviar">
+            }
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+	<script>
+        const switchers = [...document.querySelectorAll('.switcher')]
+        switchers.forEach(item => {
+            item.addEventListener('click', function () {
+                switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+                this.parentElement.classList.add('is-active')
+            })
+        })
+
+
+
+        function correoVal(input, label) {
+            var texto = $(input).val()
+            var regex = /^\w+([.-_+]?\w+)*@@\w+([.-]?\w+)*(\.\w{2,10})+$/
+            if (!regex.test(texto)) {
+                $("#" + label).text("Formarto de Correo incorrecto");
+                //$(input).val(texto.replace(/^[0-9]{10}/, ''));
+                $(input).css({ "border-color": "red", "background-color": "#f8d7da" });
+            } else {
+                $("#" + label).text("");
+                $(input).css({ "border-color": "green", "background-color": "#D3F9C8" });
+            }
+        }
+
+	</script>
+}
+

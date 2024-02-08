@@ -1,0 +1,54 @@
+﻿@model IDamianConsumoMovies.Models.ApiData
+@{
+    ViewData["Title"] = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/estilos.css" />
+
+<h1 class="text-center mb-3" style="color:aliceblue">Peliculas Favoritas</h1>
+
+
+@if (Model == null)
+{
+    <p>No se pudo recuperar información</p>
+}
+else
+{
+    <div class="row">
+
+        @foreach (var data in Model.ResultMovies)
+        {
+            <div class="col-md-4">
+                <div class="grid-wrapper">
+                    <div class="card-container box">
+                        <div class="card-flip">
+                            <div class="card front">
+                                <img src="@Url.Content($"http://image.tmdb.org/t/p/w780/{data.BackdropPath}")" height="500" class="card-img-top img-fluid" alt="movie-poster">
+                                <div class="card-block">
+                                    <h5 class="card-title">@data.Title</h5>
+                                    <p class="card-text">Lanzamiento:@data.ReleaseDate.ToShortDateString()</p>
+                                    <p class="card-text">Popularidad: @data.Popularity</p>
+                                    <p class="card-text">Idioma: @data.OriginalLanguage</p>
+                                    <p class="card-text"><small class="text-muted">Votos:@data.VoteAverage</small></p>
+                                </div>
+                            </div>
+                            <div class="card back">
+                                <div class="card-header warning-color"></div>
+                                <div class="card-block text-center">
+                                    <h4 class="card-title">Trama</h4>
+                                    <p class="card-text">
+                                        @data.Overview
+                                    </p>
+                                    <a href="@Url.Action("Eliminar", "ConsumoApi", new{IdPeli = data.Id})" class="btn btn-info mb-2" style="color:aliceblue">Eliminar</a>
+                                </div>
+                                <img src="@Url.Content($"http://image.tmdb.org/t/p/w780/{data.BackdropPath}")" alt="back-img">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+}
